@@ -5,17 +5,18 @@ import dotenv from "dotenv"
 dotenv.config()
 
 mongoose.connect(process.env.MONGO)      
-.then(()=>{
-    console.log("connected to db")   
+.  then(()=>{
+    console.log("connected to db ")   
 })
 .catch((error) =>{
     console.log(error)    
-})
+})  
+       
 
-
-const app = express()
+const app = express()       
 
 
 app.listen(4000,() =>{ 
+  
    console.log("server is running on port 4000")  
-});    
+});     
