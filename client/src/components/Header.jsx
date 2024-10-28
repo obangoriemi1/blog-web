@@ -10,7 +10,7 @@ export const Header = () => {
     <div>
        <Navbar className='border-b-2'>
          <Link to={"/"} className='self-center whitespace-nowrap text-sm sm:-text-xl font-semibold dark:text-white'>
-            <span className='px-2 py-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>SmartBrain's</span>
+            <span className='px-2 py-2 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 rounded-lg text-white'>SmartBrain's</span>
             Blog
          </Link>
           <form >
@@ -25,7 +25,7 @@ export const Header = () => {
                 <FaMoon/>
             </Button>
             <Link to={"/sign-in"} >
-              <Button gradientDuoTone="purpleToBlue">Sign in</Button>
+              <Button gradientDuoTone="purpleToBlue" outline>Sign in</Button>
             </Link>
             <Navbar.Toggle/>
          </div>
