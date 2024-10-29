@@ -1,23 +1,25 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { signinStart, signinSuccess, signFailure } from '../redux/user/userSlice'
+
 
 export const Signin = () => {
   const [formData, setFormData] = useState({})
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+ const {loading, error: errorMessage} = useSelector((state) => state.user)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleChange = (e) =>{
-    setFormData({...formData, [e.target.id]: e.target.value.trim()})
+    setFormData({...formData, [e.target.id]: e.target.value.trim()});
   }
   const handleSubmit = async(e) =>{
     e.preventDefault()
     if(!formData.email || !formData.password){
-      return setErrorMessage("please fill out all fields")
+      return dispatch(signFailure("please fill out all fields"));
     }
     try {
-      setLoading(true)
-      setErrorMessage(null)
+     dispatch(signinStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -25,15 +27,15 @@ export const Signin = () => {
       })
       const data = await res.json()
       if(data.success === false){
-        return setErrorMessage(data.message)
+        dispatch(signFailure(data.message));
       }
-      setLoading(false)
+     
       if(res.ok){
+       dispatch(signinSuccess(data));
         navigate("/")
-      }
+      } 
     } catch (error) {
-      setErrorMessage(error.message)
-      setLoading(false)
+     dispatch(signFailure(error.message));
     }
   }
   return (
@@ -69,7 +71,7 @@ export const Signin = () => {
               </Button>
            </form>
            <div className=" flex gap-2 text-sm mt-5">
-            <span>Dont have an account ? </span> <Link to={"/sign-in"} className='text-blue-600'>Sign up</Link>
+            <span>Dont have an account ? </span> <Link to={"/sign-up"} className='text-blue-600'>Sign up</Link>
            </div>
            {
             errorMessage && (
